@@ -16,7 +16,7 @@ def today():
 def forecast():
   city = request.args.get('city')
   forecast = Weather(city).forecast()
-  return make_response(jsonify({'today': forecast}))
+  return make_response(jsonify({'forecast': forecast}))
 
 if __name__ == '__main__':
   app.run(debug=True)
