@@ -115,7 +115,7 @@ class Weather:
       }).text,
       "wind speed":
       self.soup.find('a', attrs={
-        'class': f'windSpeed-{num}'
+        'class': f'windSpeed-{num} km/h'
       }).text,
       "rain probability":
       self.soup.find('a', attrs={
