@@ -3,3 +3,7 @@
 /.pytest_cache
 /test/unit/__pycache__
 /test/unit/webapp/__pycache__
+.replit
+poetry.lock
+pyproject.toml
+replit.nix
