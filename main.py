@@ -6,21 +6,42 @@ from flask import request, make_response, Flask, jsonify
 app = Flask(__name__)
 # run_with_ngrok(app)
 
-@app.route('/')
-def landing():
-  return make_response(jsonify({'message': "This is the landing page for our weather app. To get today's weather info use the endpoint '/today?city={city}'. To get the 7 day forecast go to '/forecast?city={city}"}))
 
 @app.route('/today', methods=['GET'])
-def today():
+def get():
   city = request.args.get('city')
-  today = Weather(city).today()
-  return make_response(jsonify({'today': today}))
 
-@app.route('/forecast', methods=['GET'])
-def forecast():
-  city = request.args.get('city')
+  if request.url == '/':
+    return make_response(
+      jsonify({'message': 'not a recognised endpoint'}),
+      404,
+    )
+
+  if city == None:
+    return make_response(
+      jsonify({'message': 'missing value for "city" parameter'}),
+      204,
+    )
+
+  if isinstance(city, str) == False:
+    return make_response(
+      jsonify({
+        'message':
+        f'incorrect data type for "city" parameter. Expected str but got {type(city)}'
+      }),
+      400,
+    )
+  today = Weather(city).today()
   forecast = Weather(city).forecast()
-  return make_response(jsonify({'forecast': forecast}))
+
+  return make_response(jsonify({'today': today, 'forecast': forecast}))
+
+
+# @app.route('/forecast', methods=['GET'])
+# def forecast():
+#   city = request.args.get('city')
+#   forecast = Weather(city).forecast()
+#   return make_response(jsonify({'forecast': forecast}))
 
 if __name__ == '__main__':
   app.run(debug=True)
