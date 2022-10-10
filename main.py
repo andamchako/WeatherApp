@@ -6,6 +6,10 @@ from flask import request, make_response, Flask, jsonify
 app = Flask(__name__)
 # run_with_ngrok(app)
 
+@app.route('/')
+def landing():
+  return make_response(jsonify({'message': "This is the landing page for our weather app. To get today's weather info use the endpoint '/today?city={city}'. To get the 7 day forecast go to '/forecast?city={city}"}))
+
 @app.route('/today', methods=['GET'])
 def today():
   city = request.args.get('city')
